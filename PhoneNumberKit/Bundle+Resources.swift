@@ -34,7 +34,17 @@ extension Bundle {
         #if SWIFT_PACKAGE
         return Bundle.module
         #else
-        return Bundle(for: CurrentBundleFinder.self)
+        let bundle = Bundle(for: CurrentBundleFinder.self)
+
+        guard let resourceBundleURL = bundle.url(forResource: "PhoneNumberKitCoreResources", withExtension: "bundle") else {
+            fatalError("PhoneNumberKitCoreResources not found!")
+        }
+
+        guard let resourceBundle = Bundle(url: resourceBundleURL) else {
+            fatalError("Cannot access resource bundle")
+        }
+
+        return resourceBundle
         #endif
     }()
 }
